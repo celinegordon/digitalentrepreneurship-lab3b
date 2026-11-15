@@ -149,3 +149,56 @@ button:hover {
     background: linear-gradient(135deg, #cc0000, #ff4444);
 }
 /* ADDED: Dashboard Styles Section - End */
+/* ========== MESSAGE BOARD (Part 3) ========== */
+.message-board {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #ff99c8;
+}
+
+.board-status {
+    font-size: 13px;
+    color: #ff4444;
+    margin: 10px 0 0;
+}
+
+.message-list {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0 0;
+    max-height: 260px;
+    overflow-y: auto;
+    text-align: left;
+}
+
+.message-list li {
+    background: #fff0f7;
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+}
+
+.message-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.message-meta span {
+    font-size: 11px;
+    color: #a0789f;
+}
+
+.message-list li p {
+    margin: 4px 0 0;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.message-list .empty {
+    background: none;
+    text-align: center;
+    color: #a0789f;
+    font-size: 13px;
+}
