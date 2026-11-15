@@ -101,6 +101,53 @@ app.post('/verify', async (req, res) => {
     }
 });
 
+// ========================================================
+// Message Board Routes (Part 3)
+// These must stay ABOVE the app.get('*') fallback below,
+// or the fallback would answer these requests first.
+// ========================================================
+
+// GET /messages: return the 20 newest messages, newest first
+app.get('/messages', async (req, res) => {
+    try {
+        const { data, error } = await supabase
+            .from('messages')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .limit(20);
+
+        if (error) throw error;
+
+        res.json({ success: true, messages: data });
+    } catch (error) {
+        console.error('Get messages error:', error);
+        res.status(500).json({ success: false, message: error.message || 'Error loading messages' });
+    }
+});
+
+// POST /messages: body { name, text }, save a new message
+app.post('/messages', async (req, res) => {
+    const { name, text } = req.body;
+
+    // Reject an empty message (spaces only counts as empty) with 400, like /register does
+    if (!text || !text.trim()) {
+        return res.status(400).json({ success: false, message: 'Message cannot be empty.' });
+    }
+
+    try {
+        const { error } = await supabase
+            .from('messages')
+            .insert({ name, text: text.trim() });
+
+        if (error) throw error;
+
+        res.json({ success: true, message: 'Message posted.' });
+    } catch (error) {
+        console.error('Post message error:', error);
+        res.status(500).json({ success: false, message: error.message || 'Error posting message' });
+    }
+});
+
 // Fallback route to serve React frontend for any unmatched routes
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build/index.html'));
